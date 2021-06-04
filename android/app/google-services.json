@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1039781091236",
+    "project_id": "fir-gtk-d94e6",
+    "storage_bucket": "fir-gtk-d94e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039781091236:android:7570acfa2fcab795609331",
+        "android_client_info": {
+          "package_name": "com.example.gtk_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039781091236-qamsvm2r98a8i4d8lsndlhm2gc0fc243.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE42H8CX0xNbSYvGewoKPRsqT5m0D1m7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039781091236-qamsvm2r98a8i4d8lsndlhm2gc0fc243.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039781091236:android:296b421de1133fb2609331",
+        "android_client_info": {
+          "package_name": "nl.ig.schoolstrijd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039781091236-qamsvm2r98a8i4d8lsndlhm2gc0fc243.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE42H8CX0xNbSYvGewoKPRsqT5m0D1m7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039781091236-qamsvm2r98a8i4d8lsndlhm2gc0fc243.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
