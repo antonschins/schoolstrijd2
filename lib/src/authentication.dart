@@ -55,7 +55,7 @@ class Authentication extends StatelessWidget {
                 onPressed: () {
                   startLoginFlow();
                 },
-                child: Text('RSVP'),
+                child: Text('Inloggen'),
               ),
             ),
           ],
@@ -63,7 +63,7 @@ class Authentication extends StatelessWidget {
       case ApplicationLoginState.emailAddress:
         return EmailForm(
             callback: (email) => verifyEmail(
-                email, (e) => _showErrorDialog(context, 'Invalid email', e)));
+                email, (e) => _showErrorDialog(context, 'Ongeldige email', e)));
       case ApplicationLoginState.password:
         return PasswordForm(
           email: email!,
@@ -100,7 +100,7 @@ class Authentication extends StatelessWidget {
                 onPressed: () {
                   signOut();
                 },
-                child: Text('LOGOUT'),
+                child: Text('Uitloggen'),
               ),
             ),
           ],
@@ -165,7 +165,7 @@ class _EmailFormState extends State<EmailForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Header('Sign in with email'),
+        Header('Login met email'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -178,11 +178,11 @@ class _EmailFormState extends State<EmailForm> {
                   child: TextFormField(
                     controller: _controller,
                     decoration: const InputDecoration(
-                      hintText: 'Enter your email',
+                      hintText: 'Voer email in',
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Enter your email address to continue';
+                        return 'Geef je email adres om door te gaan';
                       }
                       return null;
                     },
@@ -200,7 +200,7 @@ class _EmailFormState extends State<EmailForm> {
                             widget.callback(_controller.text);
                           }
                         },
-                        child: Text('NEXT'),
+                        child: Text('Volgende'),
                       ),
                     ),
                   ],

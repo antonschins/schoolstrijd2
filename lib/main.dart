@@ -1,4 +1,4 @@
- import 'dart:async';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import 'src/authentication.dart';
 import 'src/widgets.dart';
+import 'src/guestbook.dart';
+
 
 void main() {
   runApp(
@@ -22,12 +24,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Meetup',
+      title: 'Schoolstrijd',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.deepOrange,
             ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.orange,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -45,14 +47,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: Text('Schoolstrijd 2021'),
       ),
       body: ListView(
         children: <Widget>[
-          Image.asset('assets/codelab.png'),
+          Image.asset('assets/Merl-Milo-Coen-Storr-Sam-Hugo.jpg'),
           SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          IconAndDetail(Icons.calendar_today, '13 en 14 februari'),
+//          IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -72,21 +74,21 @@ class HomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
-          ),
+          Header("Een nieuwe App"),
+//          Paragraph(
+//            'Twee dagen strijden alle klassen tegen elkaar',
+//          ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Add from here
                 if (appState.attendees >= 2)
-                  Paragraph('${appState.attendees} people going')
+                  Paragraph('${appState.attendees} leerlingen gebruiken de App')
                 else if (appState.attendees == 1)
-                  Paragraph('1 person going')
+                  Paragraph('1 leerling gebruikt de App')
                 else
-                  Paragraph('No one going'),
+                  Paragraph('Nog niemand'),
                 // To here.
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
                   // Add from here
@@ -95,7 +97,7 @@ class HomePage extends StatelessWidget {
                     onSelection: (attending) => appState.attending = attending,
                   ),
                   // To here.
-                  Header('Discussion'),
+                  Header('Chatruimte'),
                   GuestBook(
                     addMessage: (String message) =>
                         appState.addMessageToGuestBook(message),
@@ -277,81 +279,6 @@ class ApplicationState extends ChangeNotifier {
   }
 }
 
-class GuestBookMessage {
-  GuestBookMessage({required this.name, required this.message});
-  final String name;
-  final String message;
-}
-
-enum Attending { yes, no, unknown }
-
-class GuestBook extends StatefulWidget {
-  GuestBook({required this.addMessage, required this.messages});
-  final FutureOr<void> Function(String message) addMessage;
-  final List<GuestBookMessage> messages;
-
-  @override
-  _GuestBookState createState() => _GuestBookState();
-}
-
-class _GuestBookState extends State<GuestBook> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-  final _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: _formKey,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Leave a message',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter your message to continue';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(width: 8),
-                StyledButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      await widget.addMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.send),
-                      SizedBox(width: 4),
-                      Text('SEND'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        for (var message in widget.messages)
-          Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
-      ],
-    );
-  }
-}
-
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({required this.state, required this.onSelection});
   final Attending state;
@@ -368,12 +295,12 @@ class YesNoSelection extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: Text('JA'),
               ),
               SizedBox(width: 8),
               TextButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: Text('NEE'),
               ),
             ],
           ),
@@ -385,13 +312,13 @@ class YesNoSelection extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: Text('JA'),
               ),
               SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: Text('NEE'),
               ),
             ],
           ),
