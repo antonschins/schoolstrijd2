@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolstrijd/src/chatruimte.dart';
 import 'src/homepage.dart';
 import 'src/application.dart';
+import 'src/rooster.dart';
+import 'src/stemmen.dart';
 
 void main() {
   runApp(
@@ -33,110 +36,11 @@ class App extends StatelessWidget {
       // on the FirstScreen widget.
       initialRoute: '/',
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => Home1Page(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/second': (context) => SecondScreen(),
-        '/third': (context) => Third(),
-        '/fourth': (context) => HomePage(),
+        '/': (context) => HomePage(),
+        '/rooster': (context) => Rooster(),
+        '/chatruimte': (context) => ChatRuimte(),
+        '/stemmen': (context) => Stemmen(),
       },
-    );
-  }
-}
-
-class Home1Page extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text('Homepage Screen'),
-//      ),
-//      body: Center(
-//        child: ElevatedButton(
-//          onPressed: () {
-//            Navigator.pushNamed(context, '/second');
-//          },
-//          child: Text('Go to Second'),
-//        ),
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        AppBar(
-          title: Text('Maak je keuze')
-        ),
-        Container(
-          height: 100,
-          color: Colors.amber[600],
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/fourth');
-            },
-            child: Text('INLOGGEN'),
-          ),
-        ),
-        Container(
-          height: 100,
-          color: Colors.amber[500],
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/second');
-            },
-            child: Text('ROOSTER'),
-          ),
-        ),
-        Container(
-          height: 100,
-          color: Colors.amber[100],
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/third');
-            },
-            child: Text('STEMMEN'),
-          ),
-        ),
-      ],
-    );
-
-//        ),
-//      ),
-//    );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Second Screen'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/third');
-          },
-          child: Text('Go to third'),
-        ),
-      ),
-    );
-  }
-}
-
-class Third extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Third Screen'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/');
-          },
-          child: Text('Go to HomePage'),
-        ),
-      ),
     );
   }
 }

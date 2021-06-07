@@ -13,8 +13,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp();
-
-    // Add from here
     FirebaseFirestore.instance
         .collection('attendees')
         .where('attending', isEqualTo: true)
@@ -23,7 +21,6 @@ class ApplicationState extends ChangeNotifier {
       _attendees = snapshot.docs.length;
       notifyListeners();
     });
-    // To here
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {

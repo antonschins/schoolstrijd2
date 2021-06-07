@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("Gebruik de nieuwe App"),
+//          Header("Gebruik de nieuwe App"),
 //          Paragraph(
 //            'Twee dagen strijden alle klassen tegen elkaar',
 //          ),
@@ -49,9 +49,9 @@ class HomePage extends StatelessWidget {
               children: [
                 // Add from here
                 if (appState.attendees >= 2)
-                  Paragraph('${appState.attendees} leerlingen gebruiken hem al')
+                  Paragraph('${appState.attendees} leerlingen aangemeld')
                 else if (appState.attendees == 1)
-                  Paragraph('1 leerling gebruikt de App')
+                  Paragraph('1 leerling aangemeld')
                 else
                   Paragraph('Nog niemand'),
                 // To here.
@@ -62,12 +62,34 @@ class HomePage extends StatelessWidget {
                     onSelection: (attending) => appState.attending = attending,
                   ),
                   // To here.
-                  Header('Chatruimte'),
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                    messages: appState.guestBookMessages,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
+                    child: StyledButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/rooster');
+                      },
+                      child: Text('Rooster'),
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
+                    child: StyledButton( //ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/chatruimte');
+                      },
+                      child: Text('Chatruimte'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
+                    child: StyledButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/stemmen');
+                      },
+                      child: Text('Stemmen'),
+                    ),
+                  ),
+
                 ],
               ],
             ),
@@ -78,10 +100,9 @@ class HomePage extends StatelessWidget {
   }
 }
 
-
-
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({required this.state, required this.onSelection});
+
   final Attending state;
   final void Function(Attending selection) onSelection;
 
@@ -96,12 +117,12 @@ class YesNoSelection extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('JA'),
+                child: Text('Ik ook'),
               ),
               SizedBox(width: 8),
               TextButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NEE'),
+                child: Text('Ik niet'),
               ),
             ],
           ),
@@ -113,13 +134,13 @@ class YesNoSelection extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('JA'),
+                child: Text('Ik ook'),
               ),
               SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NEE'),
+                child: Text('Ik niet'),
               ),
             ],
           ),
