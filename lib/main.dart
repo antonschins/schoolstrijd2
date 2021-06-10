@@ -6,12 +6,29 @@ import 'src/homepage.dart';
 import 'src/application.dart';
 import 'src/rooster.dart';
 import 'src/stemmen.dart';
+import 'src/cartscreen.dart';
+import 'src/catalogscreen.dart';
+import 'src/cartmodel.dart';
+import 'src/catalogmodel.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
+    MultiProvider(
+      providers: [
+        Provider(create: (context) => CatalogModel()),
+        ChangeNotifierProxyProvider<CatalogModel, CartModel>(
+          create: (context) => CartModel(),
+          update: (context, catalog, cart) {
+            if (cart == null) throw ArgumentError.notNull('cart');
+            cart.catalog = catalog;
+            return cart;
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ApplicationState(),
+          builder: (context, _) => App(),
+        ),
+      ],
     ),
   );
 }
@@ -25,21 +42,22 @@ class App extends StatelessWidget {
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.deepOrange,
             ),
+        primaryColor: Colors.orange[800],
+        accentColor: Colors.orange[200],
         primarySwatch: Colors.orange,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-//      home: HomePage(),
-      // Start the app with the "/" named route. In this case, the app starts
-      // on the FirstScreen widget.
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
         '/rooster': (context) => Rooster(),
         '/chatruimte': (context) => ChatRuimte(),
         '/stemmen': (context) => Stemmen(),
+        '/catalog': (context) => MyCatalog(),
+        '/cart': (context) => MyCart(),
       },
     );
   }

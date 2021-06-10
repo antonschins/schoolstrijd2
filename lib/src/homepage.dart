@@ -47,28 +47,24 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Add from here
                 if (appState.attendees >= 2)
                   Paragraph('${appState.attendees} leerlingen aangemeld')
                 else if (appState.attendees == 1)
                   Paragraph('1 leerling aangemeld')
                 else
                   Paragraph('Nog niemand'),
-                // To here.
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  // Add from here
                   YesNoSelection(
                     state: appState.attending,
                     onSelection: (attending) => appState.attending = attending,
                   ),
-                  // To here.
                   Padding(
                     padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
                     child: StyledButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/rooster');
+                        Navigator.pushNamed(context, '/catalog');
                       },
-                      child: Text('Rooster'),
+                      child: Text('Kiezen'),
                     ),
                   ),
                   Padding(
@@ -117,12 +113,12 @@ class YesNoSelection extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('Ik ook'),
+                child: Text('Ik doe ook mee'),
               ),
               SizedBox(width: 8),
               TextButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('Ik niet'),
+                child: Text('Ik doe niet mee'),
               ),
             ],
           ),
@@ -134,13 +130,13 @@ class YesNoSelection extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('Ik ook'),
+                child: Text('Ik doe ook mee'),
               ),
               SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.no),
-                child: Text('Ik niet'),
+                child: Text('Ik doe niet mee'),
               ),
             ],
           ),
