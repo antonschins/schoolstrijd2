@@ -41,7 +41,7 @@ class ChatRuimte extends StatelessWidget {
   }
 }
 
-
+enum Attending { yes, no, unknown }
 
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({required this.state, required this.onSelection});

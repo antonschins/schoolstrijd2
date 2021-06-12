@@ -8,8 +8,6 @@ class GuestBookMessage {
   final String message;
 }
 
-enum Attending { yes, no, unknown }
-
 class GuestBook extends StatefulWidget {
   GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;

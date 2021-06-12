@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
 import 'guestbook.dart';
+import 'chatruimte.dart';
+import 'verzenden.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -25,6 +27,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
+
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -36,6 +39,23 @@ class ApplicationState extends ChangeNotifier {
               GuestBookMessage(
                 name: document.data()['name'],
                 message: document.data()['text'],
+              ),
+            );
+          });
+          notifyListeners();
+        });
+
+        _actiLijstSubscription = FirebaseFirestore.instance
+            .collection('actilijst')
+            .orderBy('timestamp', descending: true)
+            .snapshots()
+            .listen((snapshot) {
+          _actiLijstMessages = [];
+          snapshot.docs.forEach((document) {
+            _actiLijstMessages.add(
+              ActiLijstMessage(
+                name: document.data()['name'],
+                actilijst: document.data()['list'],
               ),
             );
           });
@@ -62,7 +82,9 @@ class ApplicationState extends ChangeNotifier {
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
+        _actiLijstMessages = [];
         _guestBookSubscription?.cancel();
+        _actiLijstSubscription?.cancel();
         _attendingSubscription?.cancel(); // new
       }
       notifyListeners();
@@ -78,6 +100,10 @@ class ApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+
+  StreamSubscription<QuerySnapshot>? _actiLijstSubscription;
+  List<ActiLijstMessage> _actiLijstMessages = [];
+  List<ActiLijstMessage> get actiLijstMessages => _actiLijstMessages;
 
   int _attendees = 0;
   int get attendees => _attendees;
@@ -145,7 +171,7 @@ class ApplicationState extends ChangeNotifier {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateProfile(displayName: displayName);
+      await credential.user!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -167,4 +193,19 @@ class ApplicationState extends ChangeNotifier {
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
+
+  Future<DocumentReference> addMessageToActiLijst(List actilijst) {
+    if (_loginState != ApplicationLoginState.loggedIn) {
+      throw Exception('Must be logged in');
+    }
+
+    return FirebaseFirestore.instance.collection('actilijst').add({
+      'list': actilijst,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
+  }
+
+
 }

@@ -1,10 +1,7 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
+import 'verzenden.dart';
 
 class MyCart extends StatelessWidget {
   @override
@@ -50,7 +47,6 @@ class _CartList extends StatelessWidget {
           icon: Icon(Icons.remove_circle_outline),
           onPressed: () {
             cart.remove(cart.items[index]);
-//            print(index);
           },
         ),
         title: Text(
@@ -65,11 +61,11 @@ class _CartList extends StatelessWidget {
 class _CartTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var hugeStyle =
-        Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
+//    var hugeStyle =
+//        Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
 
     return SizedBox(
-      height: 200,
+      height: 100,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,16 +78,8 @@ class _CartTotal extends StatelessWidget {
             // the rest of the widgets in this build method.
             Consumer<CartModel>(
                 builder: (context, cart, child) =>
-                    Text('${cart.totalPrice} onderdelen')),  //, style: hugeStyle)),
-            SizedBox(width: 24),
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Dit kan ik nog niet!!')));
-              },
-              style: TextButton.styleFrom(primary: Colors.black),
-              child: Text('Verzenden'),
-            ),
+                    Text('${cart.totalPrice} onderdelen    ')),
+            Verzenden()
           ],
         ),
       ),

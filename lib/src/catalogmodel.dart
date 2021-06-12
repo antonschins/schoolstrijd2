@@ -30,6 +30,11 @@ class CatalogModel {
     return Item(id, itemNames[id]);
   }
 
+//  naam getByIdNaam(int id) {
+//    return itemNames[id];
+//  }
+
+
   /// Get item by its position in the catalog.
 //  Item getByPosition(int position) {
     // In this simplified case, an item's position in the catalog

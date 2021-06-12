@@ -4,6 +4,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'catalogmodel.dart';
+//import 'verzenden.dart';
 
 class CartModel extends ChangeNotifier {
   /// The private field backing [catalog].
@@ -22,6 +23,10 @@ class CartModel extends ChangeNotifier {
     // might have changed.
     notifyListeners();
   }
+
+  /// List of item.names in the cart.
+  List<int> get itemnrs => _itemIds;
+
 
   /// List of items in the cart.
   List<Item> get items  => _itemIds.map((id) => _catalog.getById(id)).toList();

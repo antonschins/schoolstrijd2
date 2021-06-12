@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
-import 'guestbook.dart';
+import 'chatruimte.dart';
 import 'widgets.dart';
 import 'application.dart';
 import 'package:provider/provider.dart';
@@ -80,9 +80,9 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
                     child: StyledButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/stemmen');
+                        Navigator.pushNamed(context, '/verzenden');
                       },
-                      child: Text('Stemmen'),
+                      child: Text('Verzenden'),
                     ),
                   ),
 
