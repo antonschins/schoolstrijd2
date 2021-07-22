@@ -3,7 +3,6 @@ import 'widgets.dart';
 import 'application.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
-import 'cartmodel.dart';
 
 class Verzenden extends StatelessWidget {
   Verzenden({Key? key}) : super(key: key);
@@ -68,7 +67,7 @@ class _ActiLijstState extends State<ActiLijst> {
           children: [
             StyledButton(
               onPressed: () async {
-//                await widget.addActilijst(cart.itemnrs); //effe opzoeken
+                await widget.addActilijst([1,2]); //cart.itemnrs
 //                    if (_formKey.currentState!.validate()) {
 //                      await widget.addActilijst(_controller.text);
 //                      _controller.clear();
