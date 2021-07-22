@@ -23,7 +23,6 @@ class MyCart extends StatelessWidget {
             ),
             Divider(height: 4, color: Colors.black),
             _CartTotal(),
-            Verzenden(),
           ],
         ),
       ),
@@ -67,7 +66,7 @@ class _CartTotal extends StatelessWidget {
         Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
 
     return SizedBox(
-      height: 200,
+      height: 100,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,14 +81,15 @@ class _CartTotal extends StatelessWidget {
                 builder: (context, cart, child) =>
                     Text('${cart.totalPrice} onderdelen')),  //, style: hugeStyle)),
             SizedBox(width: 24),
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Dit kan ik nog niet!!')));
-              },
-              style: TextButton.styleFrom(primary: Colors.black),
-              child: Text('Verzenden'),
-            ),
+            Verzenden(),
+//            TextButton(
+//              onPressed: () {
+//                ScaffoldMessenger.of(context).showSnackBar(
+//                    SnackBar(content: Text('Dit kan ik nog niet!!')));
+//              },
+//              style: TextButton.styleFrom(primary: Colors.black),
+//              child: Text('Verzenden'),
+//            ),
           ],
         ),
       ),
