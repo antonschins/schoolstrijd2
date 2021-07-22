@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:schoolstrijd/src/chatruimte.dart';
 import 'src/homepage.dart';
 import 'src/application.dart';
-import 'src/verzenden.dart';
+import 'src/rooster.dart';
 import 'src/cartscreen.dart';
 import 'src/catalogscreen.dart';
 import 'src/cartmodel.dart';
@@ -52,9 +52,8 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-//        '/rooster': (context) => Rooster(),
+        '/rooster': (context) => Rooster(),
         '/chatruimte': (context) => ChatRuimte(),
-        '/verzenden': (context) => Verzenden(),
         '/catalog': (context) => MyCatalog(),
         '/cart': (context) => MyCart(),
       },
