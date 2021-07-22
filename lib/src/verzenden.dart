@@ -58,7 +58,7 @@ class _ActiLijstState extends State<ActiLijst> {
 
   @override
   Widget build(BuildContext context) {
-    var cart = context.watch<CartModel>();
+//    var cart = context.watch<CartModel>();
 
     return SizedBox(
       height: 100,
@@ -68,7 +68,7 @@ class _ActiLijstState extends State<ActiLijst> {
           children: [
             StyledButton(
               onPressed: () async {
-                await widget.addActilijst(cart.itemnrs); //effe opzoeken
+//                await widget.addActilijst(cart.itemnrs); //effe opzoeken
 //                    if (_formKey.currentState!.validate()) {
 //                      await widget.addActilijst(_controller.text);
 //                      _controller.clear();

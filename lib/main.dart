@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:schoolstrijd/src/chatruimte.dart';
 import 'src/homepage.dart';
 import 'src/application.dart';
-import 'src/rooster.dart';
+
+//import 'src/rooster.dart';
 import 'src/verzenden.dart';
 import 'src/cartscreen.dart';
 import 'src/catalogscreen.dart';
@@ -15,9 +16,6 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => ApplicationState(),
-        ),
         Provider(create: (context) => CatalogModel()),
         ChangeNotifierProxyProvider<CatalogModel, CartModel>(
           create: (context) => CartModel(),
@@ -26,6 +24,9 @@ void main() {
             cart.catalog = catalog;
             return cart;
           },
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ApplicationState(),
         ),
       ],
       child: App(),
@@ -53,7 +54,7 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/rooster': (context) => Rooster(),
+//        '/rooster': (context) => Rooster(),
         '/chatruimte': (context) => ChatRuimte(),
         '/verzenden': (context) => Verzenden(),
         '/catalog': (context) => MyCatalog(),
