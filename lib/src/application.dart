@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
 import 'guestbook.dart';
-import 'chatruimte.dart';
+import 'homepage.dart';
 import 'verzenden.dart';
 
 class ApplicationState extends ChangeNotifier {

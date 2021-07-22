@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:schoolstrijd/src/chatruimte.dart';
 import 'src/homepage.dart';
 import 'src/application.dart';
-
-//import 'src/rooster.dart';
 import 'src/verzenden.dart';
 import 'src/cartscreen.dart';
 import 'src/catalogscreen.dart';

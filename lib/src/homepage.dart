@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
-import 'chatruimte.dart';
 import 'widgets.dart';
 import 'application.dart';
 import 'package:provider/provider.dart';
@@ -95,6 +94,8 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+enum Attending { yes, no, unknown }
 
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({required this.state, required this.onSelection});
