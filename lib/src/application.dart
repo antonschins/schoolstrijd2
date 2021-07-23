@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
 import 'guestbook.dart';
-import 'homepage.dart';
 import 'verzenden.dart';
 
 class ApplicationState extends ChangeNotifier {
@@ -15,14 +14,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp();
-//    FirebaseFirestore.instance
-//        .collection('attendees')
-//        .where('attending', isEqualTo: true)
-//        .snapshots()
-//        .listen((snapshot) {
-//      _attendees = snapshot.docs.length;
-//      notifyListeners();
-//    });
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -61,31 +52,13 @@ class ApplicationState extends ChangeNotifier {
           });
           notifyListeners();
         });
-        // Add from here
-        _attendingSubscription = FirebaseFirestore.instance
-            .collection('attendees')
-            .doc(user.uid)
-            .snapshots()
-            .listen((snapshot) {
-          if (snapshot.data() != null) {
-            if (snapshot.data()!['attending']) {
-              _attending = Attending.yes;
-            } else {
-              _attending = Attending.no;
-            }
-          } else {
-            _attending = Attending.unknown;
-          }
-          notifyListeners();
-        });
-        // to here
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _actiLijstMessages = [];
         _guestBookSubscription?.cancel();
         _actiLijstSubscription?.cancel();
-        _attendingSubscription?.cancel(); // new
+//        _attendingSubscription?.cancel(); // new
       }
       notifyListeners();
     });
@@ -104,23 +77,6 @@ class ApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _actiLijstSubscription;
   List<ActiLijstMessage> _actiLijstMessages = [];
   List<ActiLijstMessage> get actiLijstMessages => _actiLijstMessages;
-
-  int _attendees = 0;
-  int get attendees => _attendees;
-
-  Attending _attending = Attending.unknown;
-  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
-  Attending get attending => _attending;
-  set attending(Attending attending) {
-    final userDoc = FirebaseFirestore.instance
-        .collection('attendees')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-    if (attending == Attending.yes) {
-      userDoc.set({'attending': true});
-    } else {
-      userDoc.set({'attending': false});
-    }
-  }
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -206,6 +162,5 @@ class ApplicationState extends ChangeNotifier {
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
-
 
 }
