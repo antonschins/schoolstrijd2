@@ -15,14 +15,14 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp();
-    FirebaseFirestore.instance
-        .collection('attendees')
-        .where('attending', isEqualTo: true)
-        .snapshots()
-        .listen((snapshot) {
-      _attendees = snapshot.docs.length;
-      notifyListeners();
-    });
+//    FirebaseFirestore.instance
+//        .collection('attendees')
+//        .where('attending', isEqualTo: true)
+//        .snapshots()
+//        .listen((snapshot) {
+//      _attendees = snapshot.docs.length;
+//      notifyListeners();
+//    });
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
