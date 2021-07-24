@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
 import 'guestbook.dart';
-import 'verzenden.dart';
+import 'cartscreen.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -58,7 +58,6 @@ class ApplicationState extends ChangeNotifier {
         _actiLijstMessages = [];
         _guestBookSubscription?.cancel();
         _actiLijstSubscription?.cancel();
-//        _attendingSubscription?.cancel(); // new
       }
       notifyListeners();
     });

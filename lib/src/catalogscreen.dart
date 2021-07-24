@@ -7,22 +7,23 @@ class MyCatalog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Activiteiten kiezen'),
-          //style: Theme.of(context).textTheme.headline1),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.arrow_forward_outlined),
-              onPressed: () => Navigator.pushNamed(context, '/cart'),
-            ),
-          ],
-        ),
-        body: Container(
-          decoration: new BoxDecoration(color: Colors.orange[300]),
-          child: Column(
-            children: new List.generate(7, (index) => _MyListItem(index)),
+      appBar: AppBar(
+        title: Text('Activiteiten kiezen'),
+        //style: Theme.of(context).textTheme.headline1),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.arrow_forward_outlined),
+            onPressed: () => Navigator.pushNamed(context, '/cart'),
           ),
+        ],
+      ),
+      body: Container(
+        decoration: new BoxDecoration(color: Colors.orange[300]),
+        child: Column(
+          children: new List.generate(
+              CatalogModel.itemNames.length, (index) => _MyListItem(index)),
         ),
+      ),
     );
   }
 }
@@ -45,11 +46,6 @@ class _MyListItem extends StatelessWidget {
     );
 
     Color _getColor(BuildContext context) {
-      // The theme depends on the BuildContext because different
-      // parts of the tree can have different themes.
-      // The BuildContext indicates where the build is
-      // taking place and therefore which theme to use.
-
       return isInCart //
           ? Theme.of(context).primaryColor
           : Colors.black54;

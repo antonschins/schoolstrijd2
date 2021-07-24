@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
-import 'verzenden.dart';
+import 'dart:async';
+import 'application.dart';
+import 'widgets.dart';
 
 class MyCart extends StatelessWidget {
   @override
@@ -47,7 +49,6 @@ class _CartList extends StatelessWidget {
           icon: Icon(Icons.remove_circle_outline),
           onPressed: () {
             cart.remove(cart.items[index]);
-//            print(index);
           },
         ),
         title: Text(
@@ -79,17 +80,89 @@ class _CartTotal extends StatelessWidget {
             // the rest of the widgets in this build method.
             Consumer<CartModel>(
                 builder: (context, cart, child) =>
-                    Text('${cart.totalPrice} onderdelen')),  //, style: hugeStyle)),
+                    Text('${cart.itemnrs.length} onderdelen')),  //, style: hugeStyle)),
             SizedBox(width: 24),
             Verzenden(),
-//            TextButton(
-//              onPressed: () {
-//                ScaffoldMessenger.of(context).showSnackBar(
-//                    SnackBar(content: Text('Dit kan ik nog niet!!')));
-//              },
-//              style: TextButton.styleFrom(primary: Colors.black),
-//              child: Text('Verzenden'),
-//            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Verzenden extends StatelessWidget {
+  Verzenden({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100,
+      child: Center(
+        child: Row(
+          children: <Widget>[
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ActiLijst(
+                    addActilijst: (List actilijst) =>
+                        appState.addMessageToActiLijst(actilijst),
+                    actilists: appState.actiLijstMessages,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ActiLijstMessage {
+  ActiLijstMessage({required this.name, required this.actilijst});
+
+  final String name;
+  final List actilijst;
+}
+
+class ActiLijst extends StatefulWidget {
+  ActiLijst({required this.addActilijst, required this.actilists});
+
+  final FutureOr<void> Function(List actilijst) addActilijst;
+  final List<ActiLijstMessage> actilists;
+
+  @override
+  _ActiLijstState createState() => _ActiLijstState();
+}
+
+class _ActiLijstState extends State<ActiLijst> {
+//  final _formKey = GlobalKey<FormState>(debugLabel: '_ActiLijstState');
+
+  @override
+  Widget build(BuildContext context) {
+    var cart = context.watch<CartModel>();
+
+    return SizedBox(
+      height: 100,
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            StyledButton(
+              onPressed: () async {
+                await widget.addActilijst(cart.itemnrs); //cart.itemnrs
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text('Verzonden')));
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.send),
+                  SizedBox(width: 4),
+                  Text('verzenden'),
+                ],
+              ),
+            ),
           ],
         ),
       ),

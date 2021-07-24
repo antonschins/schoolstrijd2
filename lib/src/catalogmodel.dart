@@ -22,7 +22,7 @@ class Item {
   final int id;
   final String name;
 //  final Color color=Colors.orange;
-//  final int price = 2;
+//  final int price = 1;
 
   Item(this.id, this.name);
 
