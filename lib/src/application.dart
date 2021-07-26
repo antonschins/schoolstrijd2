@@ -36,28 +36,12 @@ class ApplicationState extends ChangeNotifier {
           notifyListeners();
         });
 
-        _actiLijstSubscription = FirebaseFirestore.instance
-            .collection('actilijst')
-            .orderBy('timestamp', descending: true)
-            .snapshots()
-            .listen((snapshot) {
-          _actiLijstMessages = [];
-          snapshot.docs.forEach((document) {
-            _actiLijstMessages.add(
-              ActiLijstMessage(
-                name: document.data()['name'],
-                actilijst: document.data()['list'],
-              ),
-            );
-          });
-          notifyListeners();
-        });
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
-        _actiLijstMessages = [];
+//        _actiLijstMessages = [];
         _guestBookSubscription?.cancel();
-        _actiLijstSubscription?.cancel();
+//        _actiLijstSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -73,9 +57,9 @@ class ApplicationState extends ChangeNotifier {
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
 
-  StreamSubscription<QuerySnapshot>? _actiLijstSubscription;
-  List<ActiLijstMessage> _actiLijstMessages = [];
-  List<ActiLijstMessage> get actiLijstMessages => _actiLijstMessages;
+//  StreamSubscription<QuerySnapshot>? _actiLijstSubscription;
+//  List<ActiLijstMessage> _actiLijstMessages = [];
+//  List<ActiLijstMessage> get actiLijstMessages => _actiLijstMessages;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;

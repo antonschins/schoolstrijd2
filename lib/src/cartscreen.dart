@@ -4,8 +4,11 @@ import 'cartmodel.dart';
 import 'dart:async';
 import 'application.dart';
 import 'widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyCart extends StatelessWidget {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,81 +69,6 @@ class _CartTotal extends StatelessWidget {
     var hugeStyle =
         Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
 
-    return SizedBox(
-      height: 100,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Another way to listen to a model's change is to include
-            // the Consumer widget. This widget will automatically listen
-            // to CartModel and rerun its builder on every change.
-            //
-            // The important thing is that it will not rebuild
-            // the rest of the widgets in this build method.
-            Consumer<CartModel>(
-                builder: (context, cart, child) =>
-                    Text('${cart.itemnrs.length} onderdelen')),  //, style: hugeStyle)),
-            SizedBox(width: 24),
-            Verzenden(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Verzenden extends StatelessWidget {
-  Verzenden({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: Center(
-        child: Row(
-          children: <Widget>[
-            Consumer<ApplicationState>(
-              builder: (context, appState, _) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ActiLijst(
-                    addActilijst: (List actilijst) =>
-                        appState.addMessageToActiLijst(actilijst),
-                    actilists: appState.actiLijstMessages,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ActiLijstMessage {
-  ActiLijstMessage({required this.name, required this.actilijst});
-
-  final String name;
-  final List actilijst;
-}
-
-class ActiLijst extends StatefulWidget {
-  ActiLijst({required this.addActilijst, required this.actilists});
-
-  final FutureOr<void> Function(List actilijst) addActilijst;
-  final List<ActiLijstMessage> actilists;
-
-  @override
-  _ActiLijstState createState() => _ActiLijstState();
-}
-
-class _ActiLijstState extends State<ActiLijst> {
-//  final _formKey = GlobalKey<FormState>(debugLabel: '_ActiLijstState');
-
-  @override
-  Widget build(BuildContext context) {
     var cart = context.watch<CartModel>();
 
     return SizedBox(
@@ -149,23 +77,48 @@ class _ActiLijstState extends State<ActiLijst> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            StyledButton(
-              onPressed: () async {
-                await widget.addActilijst(cart.itemnrs); //cart.itemnrs
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('Verzonden')));
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.send),
-                  SizedBox(width: 4),
-                  Text('verzenden'),
-                ],
-              ),
-            ),
+            Text('${cart.itemnrs.length} onderdelen'), //),
+            SizedBox(width: 24),
+            AddActi(cart.itemnrs),
           ],
         ),
       ),
     );
   }
 }
+
+class AddActi extends StatelessWidget {
+  final List lijst;
+
+  AddActi(this.lijst);
+
+  @override
+  Widget build(BuildContext context) {
+    // Create a CollectionReference called activiteiten that references the firestore collection
+    CollectionReference activiteiten =
+        FirebaseFirestore.instance.collection('activiteiten');
+
+    Future<void> addActi() {
+      // Call the activiteiten's CollectionReference to add a new user
+      return activiteiten
+          .add({
+            'activiteiten': lijst,
+          })
+          .then((value) => print("Lijst activiteiten toegevoegd"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
+    return StyledButton(
+      onPressed: addActi,
+      child: Row(
+        children: [
+          Icon(Icons.send),
+          SizedBox(width: 4),
+          Text('verzenden'),
+        ],
+      ),
+    );
+  }
+}
+
+//                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Verzonden')));
