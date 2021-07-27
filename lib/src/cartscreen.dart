@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
 import 'dart:async';
-import 'application.dart';
 import 'widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -64,12 +63,28 @@ class _CartList extends StatelessWidget {
 }
 
 class _CartTotal extends StatelessWidget {
+  const _CartTotal({Key? key}) : super(key: key);
+
+  //  final List lijst;
+
   @override
   Widget build(BuildContext context) {
-    var hugeStyle =
-        Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
+    // Create a CollectionReference called activiteiten that references the firestore collection
+    CollectionReference activiteiten =
+        FirebaseFirestore.instance.collection('activiteiten');
 
     var cart = context.watch<CartModel>();
+    var lijst = cart.itemnrs;
+
+    Future<void> addActi() {
+      // Call the activiteiten's CollectionReference to add a new list
+      return activiteiten
+          .add({
+            'activiteiten': lijst,
+          })
+          .then((value) => print("Lijst activiteiten toegevoegd"))
+          .catchError((error) => print("Failed to add activiteiten: $error"));
+    }
 
     return SizedBox(
       height: 100,
@@ -79,46 +94,15 @@ class _CartTotal extends StatelessWidget {
           children: [
             Text('${cart.itemnrs.length} onderdelen'), //),
             SizedBox(width: 24),
-            AddActi(cart.itemnrs),
+            ElevatedButton(
+              onPressed: () {
+                addActi();
+              },
+              child: Text('verzenden'),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-class AddActi extends StatelessWidget {
-  final List lijst;
-
-  AddActi(this.lijst);
-
-  @override
-  Widget build(BuildContext context) {
-    // Create a CollectionReference called activiteiten that references the firestore collection
-    CollectionReference activiteiten =
-        FirebaseFirestore.instance.collection('activiteiten');
-
-    Future<void> addActi() {
-      // Call the activiteiten's CollectionReference to add a new user
-      return activiteiten
-          .add({
-            'activiteiten': lijst,
-          })
-          .then((value) => print("Lijst activiteiten toegevoegd"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    return StyledButton(
-      onPressed: addActi,
-      child: Row(
-        children: [
-          Icon(Icons.send),
-          SizedBox(width: 4),
-          Text('verzenden'),
-        ],
-      ),
-    );
-  }
-}
-
-//                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Verzonden')));
