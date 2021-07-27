@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
 import 'dart:async';
-import 'widgets.dart';
+//import 'widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyCart extends StatelessWidget {
@@ -98,7 +98,12 @@ class _CartTotal extends StatelessWidget {
               onPressed: () {
                 addActi();
               },
-              child: Text('verzenden'),
+              child: Row(
+                children: [
+                  Icon(Icons.send),
+                  Text('verzenden'),
+                ],
+              ),
             ),
           ],
         ),
