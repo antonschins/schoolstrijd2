@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -80,7 +81,10 @@ class _CartTotal extends StatelessWidget {
       // Call the activiteiten's CollectionReference to add a new list
       return activiteiten
           .add({
-            'activiteiten': lijst,
+        'list': cart.itemnrs,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        'name': FirebaseAuth.instance.currentUser!.displayName,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
           })
           .then((value) => print("Lijst activiteiten toegevoegd"))
           .catchError((error) => print("Failed to add activiteiten: $error"));

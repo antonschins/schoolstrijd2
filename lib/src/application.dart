@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
-import 'guestbook.dart';
-import 'cartscreen.dart';
+import 'chatruimte.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
+
+  String get guestbookname => FirebaseAuth.instance.currentUser!.uid.substring(0,2);
 
   Future<void> init() async {
     await Firebase.initializeApp();
@@ -20,7 +21,7 @@ class ApplicationState extends ChangeNotifier {
         _loginState = ApplicationLoginState.loggedIn;
 
         _guestBookSubscription = FirebaseFirestore.instance
-            .collection('guestbook')
+            .collection(guestbookname)
             .orderBy('timestamp', descending: true)
             .snapshots()
             .listen((snapshot) {
@@ -39,9 +40,7 @@ class ApplicationState extends ChangeNotifier {
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
-//        _actiLijstMessages = [];
         _guestBookSubscription?.cancel();
-//        _actiLijstSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -56,10 +55,6 @@ class ApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-
-//  StreamSubscription<QuerySnapshot>? _actiLijstSubscription;
-//  List<ActiLijstMessage> _actiLijstMessages = [];
-//  List<ActiLijstMessage> get actiLijstMessages => _actiLijstMessages;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -125,21 +120,8 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add({
+    return FirebaseFirestore.instance.collection(guestbookname).add({
       'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
-  }
-
-  Future<DocumentReference> addMessageToActiLijst(List actilijst) {
-    if (_loginState != ApplicationLoginState.loggedIn) {
-      throw Exception('Must be logged in');
-    }
-
-    return FirebaseFirestore.instance.collection('actilijst').add({
-      'list': actilijst,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
