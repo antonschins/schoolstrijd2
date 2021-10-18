@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cartmodel.dart';
-import 'verzenden.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyCart extends StatelessWidget {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +52,6 @@ class _CartList extends StatelessWidget {
           icon: Icon(Icons.remove_circle_outline),
           onPressed: () {
             cart.remove(cart.items[index]);
-//            print(index);
           },
         ),
         title: Text(
@@ -60,10 +64,31 @@ class _CartList extends StatelessWidget {
 }
 
 class _CartTotal extends StatelessWidget {
+  const _CartTotal({Key? key}) : super(key: key);
+
+  //  final List lijst;
+
   @override
   Widget build(BuildContext context) {
-    var hugeStyle =
-        Theme.of(context).textTheme.headline1!.copyWith(fontSize: 48);
+    // Create a CollectionReference called activiteiten that references the firestore collection
+    CollectionReference activiteiten =
+        FirebaseFirestore.instance.collection('activiteiten');
+
+    var cart = context.watch<CartModel>();
+    var lijst = cart.itemnrs;
+
+    Future<void> addActi() {
+      // Call the activiteiten's CollectionReference to add a new list
+      return activiteiten
+          .add({
+        'list': cart.itemnrs,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        'name': FirebaseAuth.instance.currentUser!.displayName,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+          })
+          .then((value) => print("Lijst activiteiten toegevoegd"))
+          .catchError((error) => print("Failed to add activiteiten: $error"));
+    }
 
     return SizedBox(
       height: 100,
@@ -71,25 +96,19 @@ class _CartTotal extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Another way to listen to a model's change is to include
-            // the Consumer widget. This widget will automatically listen
-            // to CartModel and rerun its builder on every change.
-            //
-            // The important thing is that it will not rebuild
-            // the rest of the widgets in this build method.
-            Consumer<CartModel>(
-                builder: (context, cart, child) =>
-                    Text('${cart.totalPrice} onderdelen')),  //, style: hugeStyle)),
+            Text('${cart.itemnrs.length} onderdelen'), //),
             SizedBox(width: 24),
-            Verzenden(),
-//            TextButton(
-//              onPressed: () {
-//                ScaffoldMessenger.of(context).showSnackBar(
-//                    SnackBar(content: Text('Dit kan ik nog niet!!')));
-//              },
-//              style: TextButton.styleFrom(primary: Colors.black),
-//              child: Text('Verzenden'),
-//            ),
+            ElevatedButton(
+              onPressed: () {
+                addActi();
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.send),
+                  Text('verzenden'),
+                ],
+              ),
+            ),
           ],
         ),
       ),

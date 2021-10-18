@@ -1,10 +1,5 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/foundation.dart';
 import 'catalogmodel.dart';
-//import 'verzenden.dart';
 
 class CartModel extends ChangeNotifier {
   /// The private field backing [catalog].
@@ -24,16 +19,11 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// List of item.names in the cart.
+  /// List of item Id's in the cart.
   List<int> get itemnrs => _itemIds;
-
 
   /// List of items in the cart.
   List<Item> get items  => _itemIds.map((id) => _catalog.getById(id)).toList();
-
-  /// The current total price of all items.
-  int get totalPrice =>
-      items.fold(0, (total, current) => total + current.price);
 
   /// Adds [item] to cart. This is the only way to modify the cart from outside.
   void add(Item item) {
