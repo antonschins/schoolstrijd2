@@ -10,7 +10,7 @@ import 'src/catalogscreen.dart';
 import 'src/cartmodel.dart';
 import 'src/catalogmodel.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'src/listing_mode_screen.dart';
+//import 'src/listing_mode_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,17 +119,15 @@ class MyAwesomeApp extends StatelessWidget {
               highlightColor: Colors.deepOrange,
             ),
         primaryColor: Colors.orange[800],
-        accentColor: Colors.orange[200],
-        primarySwatch: Colors.orange,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.orange).copyWith(secondary: Colors.orange[200]),
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/rooster': (context) => ListingModeScreen(),
+        '/rooster': (context) => Rooster2(),
         '/chatruimte': (context) => ChatRuimte(),
         '/catalog': (context) => MyCatalog(),
         '/cart': (context) => MyCart(),
