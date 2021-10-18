@@ -127,7 +127,7 @@ class MyAwesomeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/rooster': (context) => Rooster2(),
+        '/rooster': (context) => Rooster(),
         '/chatruimte': (context) => ChatRuimte(),
         '/catalog': (context) => MyCatalog(),
         '/cart': (context) => MyCart(),
