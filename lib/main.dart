@@ -10,6 +10,7 @@ import 'src/catalogscreen.dart';
 import 'src/cartmodel.dart';
 import 'src/catalogmodel.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'src/listing_mode_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -128,7 +129,7 @@ class MyAwesomeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/rooster': (context) => Rooster(),
+        '/rooster': (context) => ListingModeScreen(),
         '/chatruimte': (context) => ChatRuimte(),
         '/catalog': (context) => MyCatalog(),
         '/cart': (context) => MyCart(),

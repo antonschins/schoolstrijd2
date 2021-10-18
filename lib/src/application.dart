@@ -71,6 +71,7 @@ class ApplicationState extends ChangeNotifier {
       if (methods.contains('password')) {
         _loginState = ApplicationLoginState.password;
       } else {
+// hier erin knallen: alleen voor geregistreerde gebruikers!
         _loginState = ApplicationLoginState.register;
       }
       _email = email;

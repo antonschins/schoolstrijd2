@@ -71,25 +71,42 @@ class Authentication extends StatelessWidget {
                 (e) => _showErrorDialog(context, 'Failed to sign in', e));
           },
         );
+//      case ApplicationLoginState.register:
+//        return RegisterForm(
+//          email: email!,
+//          cancel: () {
+//            cancelRegistration();
+//          },
+//          registerAccount: (
+//            email,
+//            displayName,
+//            password,
+//          ) {
+//            registerAccount(
+//                email,
+//                displayName,
+//                password,
+//                (e) =>
+//                    _showErrorDialog(context, 'Failed to create account', e));
+//          },
+//        );
+
       case ApplicationLoginState.register:
-        return RegisterForm(
-          email: email!,
-          cancel: () {
-            cancelRegistration();
-          },
-          registerAccount: (
-            email,
-            displayName,
-            password,
-          ) {
-            registerAccount(
-                email,
-                displayName,
-                password,
-                (e) =>
-                    _showErrorDialog(context, 'Failed to create account', e));
-          },
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: StyledButton(
+                onPressed: () {
+                  signOut();
+                },
+                child: Text('Sorry, alleen voor geregistreerde gebruikers'),
+              ),
+            ),
+          ],
         );
+
+
       case ApplicationLoginState.loggedIn:
         return Row(
           children: [
