@@ -37,6 +37,8 @@ dependencies:
   url_launcher: ^6.0.9
   font_awesome_flutter: ^9.1.0
   rainbow_color: ^2.0.1
+  firebase_picture_uploader: ^1.3.0
+  image_cropper: ^1.4.1
 
 dev_dependencies:
   flutter_test:
