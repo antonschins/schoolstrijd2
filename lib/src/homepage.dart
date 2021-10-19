@@ -69,6 +69,15 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
                     child: StyledButton(
                       onPressed: () {
+                        Navigator.pushNamed(context, '/foto');
+                      },
+                      child: Text('Foto'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 4,right: 24),
+                    child: StyledButton(
+                      onPressed: () {
                         Navigator.pushNamed(context, '/rooster');
                       },
                       child: Text('Rooster'),
